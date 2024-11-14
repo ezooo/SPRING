@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
+<!-- beans 에 계속 에러 > window preference에서 xml 다운로드 관련 체크해주니까 에러 없어짐 -->
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- 핸들러매핑과 핸들러아답터를 자동으로 객체생성함 -->
+	<annotation-driven />
+
+	<!-- css,image,js와 같은 공유되는 파일의 위치를 정하고 MVC외 처리를 실시함
+		 디스패쳐 서블릿은 이 경로에는 관여하지 말고 그냥 통과시켜라
+		 http://localhost:8080/chap0201/resources/images/p1234.jpg -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- 뷰리졸브 객체 add라는 문자열을 받으면 /WEB-INF/views/add.jsp 라는 경로를 반환해준다 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	
+	<!-- com.springmvc.* 이라고 표시하면 해당 패키지의 모든 클래스의 객체를 만들어서 보관 후 자동주입함
+		 이 폴더에 속하는 것만 스캔 : 스캔은 복사하려고 하는 것 : new 하는거라고 생각하기 -->
+	<context:component-scan base-package="com.springmvc.*" />
+	<!-- 
+		1. 핸들러 매핑
+		2. 뷰 리졸브
+		3. com.springmvc.controller.HomeController : @Controller가 있기 때문에 만들어지는 것 
+	-->
+	
+	
+</beans:beans>

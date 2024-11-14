@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="D:\CEJ\Spring"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -25,12 +26,16 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.springmvc.spBookmarket"/>
+			<item value="com.springmvc.springBookmarket"/>
 			<item value="com.springmvc.chap02"/>
 		</list>
 		<list key="groupId">
 			<item value="com.springmvc"/>
 		</list>
 		<list key="artifactId">
+			<item value="spBookmarket"/>
+			<item value="springBookmarket"/>
 			<item value="chap02"/>
 		</list>
 		<list key="projectNameTemplate">
