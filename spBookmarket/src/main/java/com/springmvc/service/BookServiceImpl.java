@@ -1,6 +1,8 @@
 package com.springmvc.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,4 +23,23 @@ public class BookServiceImpl implements BookService
 		
 		return bookRepository.getAllBookList();
 	}
+
+	@Override
+	public List<Book> getBookListByCategory(String category) 
+	{
+		System.out.println("북서비스 getBookListByCategory 진입 - 리파지토리 함수 호출하기");
+		List<Book> booksByCategory = bookRepository.getBookListByCategory(category);
+		System.out.println("북서비스 getBookListByCategory : 리파지토리 함수 호출 후 리턴 받아 북 컨트롤러로 돌아갑니다.");
+		return booksByCategory;
+	}
+
+	@Override
+	public Set<Book> getBookListByFilter(Map<String, List<String>> filter) 
+	{
+		System.out.println("북서비스 getBookListByFilter 진입 - 리파지토리 함수 호출하기");
+		Set<Book> booksByFilter = bookRepository.getBookListByFilter(filter);
+		System.out.println("북서비스 getBookListByFilter : 리파지토리의 리턴을 받고 북 컨트롤러로 돌아갑니다.");
+		return booksByFilter;
+	}
+	
 }

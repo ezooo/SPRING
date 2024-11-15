@@ -1,7 +1,11 @@
 package com.springmvc.repository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.stereotype.Repository;
 import com.springmvc.domain.Book;
 
@@ -46,5 +50,68 @@ public class BookRepositoryImpl implements BookRepository
 	{
 		System.out.println("리파지토리 겟올북리스트");
 		return listOfBooks;
+	}
+
+	@Override
+	public List<Book> getBookListByCategory(String category) 
+	{
+		System.out.println("리파지토리 카테고리 책 목록 가져오기 함수 진입");
+		List<Book> booksByCategory = new ArrayList<Book>();
+		for(int i=0; i<listOfBooks.size(); i++)
+		{
+			Book book = listOfBooks.get(i);
+			if(category.equalsIgnoreCase(book.getCategory()))
+			{	//받아온 카테고리랑 전체 책 하나씩 비교
+				System.out.println(i+"번째 책은 "+category+" 카테고리에 포함됨. 리스트에 추가하기");
+				booksByCategory.add(book);
+			}
+		}
+		System.out.println("카테고리 검사 종료 -- 함수를 호출한 북 서비스로 돌아갑니다.");
+		return booksByCategory;
+	}
+
+	@Override
+	public Set<Book> getBookListByFilter(Map<String, List<String>> filter) 
+	{	//매트리스 변수 활용하여 책 목록 가져오기 함수 작성
+		System.out.println("리파지토리 필터로 책 목록 가져오기 함수 진입");
+		Set<Book> booksByPublisher = new HashSet<Book>();	//해당 출판사에 해당하는 책 담을 컬렉션프레임워크
+		Set<Book> booksByCategory = new HashSet<Book>();	//해당 카테고리에 해당하는 책 담을 컬렉션프레임워크
+		
+		Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
+		
+		if(booksByFilter.contains("publisher"))
+		{	// 전달받은 파라미터 키 중에 publisher 가 있다면
+			System.out.println("필터에 출판사가 포함되어있다");
+			for(int i=0; i<filter.get("publisher").size(); i++)
+			{	//키가 가진 value의 갯수만큼 반복
+				String publisherName = filter.get("publisher").get(i);	//인덱스 이용해서 하나씩 꺼내서 변수에 담기
+				for(int j=0; j<listOfBooks.size(); j++)
+				{
+					Book book = listOfBooks.get(j);
+					
+					if(publisherName.equalsIgnoreCase(book.getPublisher()))
+					{
+						System.out.println(j+ " 출판사 이름이 유효하다");
+						booksByPublisher.add(book);
+					}
+				}
+			}
+			System.out.println("필터 - 출판사 for문 종료");
+		}
+		
+		if(booksByFilter.contains("category"))
+		{
+			System.out.println("필터에 출판사가 포함되어있다");
+			for(int i=0; i<filter.get("category").size(); i++)
+			{
+				String category = filter.get("category").get(i);
+				List<Book> list = getBookListByCategory(category);
+				booksByCategory.addAll(list);
+			}
+			System.out.println("필터 - 카테고리 for문 종료");
+		}
+		booksByCategory.retainAll(booksByPublisher);
+		System.out.println("필터 함수 종료 -- 함수를 호출한 북 서비스로 돌아갑니다.");
+		return booksByCategory;
 	}
 }

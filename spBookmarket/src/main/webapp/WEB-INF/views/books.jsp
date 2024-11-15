@@ -5,7 +5,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="/spBookmarket/resources/css/bootstrap.min.css"></link>
 <meta charset="UTF-8">
 <title>도서 목록</title>
 </head>
@@ -15,7 +15,7 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="./home">Home</a>
+			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
 		</div>
 	</div>
 </nav>
