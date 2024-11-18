@@ -41,5 +41,21 @@ public class BookServiceImpl implements BookService
 		System.out.println("북서비스 getBookListByFilter : 리파지토리의 리턴을 받고 북 컨트롤러로 돌아갑니다.");
 		return booksByFilter;
 	}
-	
+
+	@Override
+	public Book getBookById(String bookId) 
+	{
+		System.out.println("북서비스 getBookById - 리파지토리 함수호출");
+		Book bookById = bookRepository.getBookById(bookId);
+		System.out.println("bookRepository의 getBookById 호출종료");
+		return bookById;
+	}
+
+	@Override
+	public void setNewBook(Book book) 
+	{
+		System.out.println("북서비스 셋뉴북 - 리파지토리 함수호출");
+		bookRepository.setNewBook(book);
+		System.out.println("북서비스 셋뉴북 - 리파지토리 셋 완료");
+	}
 }

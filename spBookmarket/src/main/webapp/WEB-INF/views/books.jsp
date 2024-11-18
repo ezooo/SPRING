@@ -16,6 +16,7 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
+			<a class="navbar-brand" href="./books/add">Add</a>
 		</div>
 	</div>
 </nav>
@@ -32,7 +33,8 @@
 				<p>${book.author }</p>
 					<br>${book.publisher} | ${book.releaseDate}
 				<p align=left>${book.description}</p>
-				<p>${book.unitPrice}원</p>				
+				<p>${book.unitPrice}원</p>
+				<p><a href="<c:url value="/books/book?id=${book.bookId }"/>" class="btn btn-secondary" role="button">상세정보 &raquo;</a></p>		
 			</div>
 		</c:forEach>
 	</div>

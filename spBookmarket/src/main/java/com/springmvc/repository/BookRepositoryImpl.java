@@ -79,6 +79,12 @@ public class BookRepositoryImpl implements BookRepository
 		
 		Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
 		
+		for(String key : filter.keySet()) 
+		{	//안에 뭐 들어있는지 확인하기 위한 코드 (프로그램 동작에 관여하지는 않음)
+             List<String> values = filter.get(key);
+             System.out.println("key : "+key+", value : "+values);
+        }
+		
 		if(booksByFilter.contains("publisher"))
 		{	// 전달받은 파라미터 키 중에 publisher 가 있다면
 			System.out.println("필터에 출판사가 포함되어있다");
@@ -114,4 +120,38 @@ public class BookRepositoryImpl implements BookRepository
 		System.out.println("필터 함수 종료 -- 함수를 호출한 북 서비스로 돌아갑니다.");
 		return booksByCategory;
 	}
+
+	
+	@Override
+	public Book getBookById(String bookId) 
+	{
+		System.out.println("리파지토리 : getBookById 진입");
+		Book bookInfo = null;
+		for(int i=0; i<listOfBooks.size(); i++)
+		{
+			Book book = listOfBooks.get(i);
+			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId))
+			{
+				bookInfo = book;
+				System.out.println("bookInfo = book 실행");
+				break;
+			}
+		}
+		if(bookInfo == null)
+		{
+			throw new IllegalArgumentException("도서 ID가 "+bookId + "인 해당 도서를 찾을 수 없습니다.");
+		}
+		System.out.println("getBookById 동작완료");
+		return bookInfo;
+	}
+
+	@Override
+	public void setNewBook(Book book) 
+	{
+		System.out.println("setNewBook 진입");
+		listOfBooks.add(book);
+		System.out.println("setNewBook 동작완료");
+	}
+
+	
 }
