@@ -132,7 +132,7 @@ public class BookRepositoryImpl implements BookRepository
 			Book book = listOfBooks.get(i);
 			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId))
 			{
-				bookInfo = book;
+				bookInfo = book;	//해당 아이디와 일치하는 책 객체를 변수에 담음
 				System.out.println("bookInfo = book 실행");
 				break;
 			}

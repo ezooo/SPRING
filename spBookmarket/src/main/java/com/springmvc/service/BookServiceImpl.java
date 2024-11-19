@@ -46,9 +46,9 @@ public class BookServiceImpl implements BookService
 	public Book getBookById(String bookId) 
 	{
 		System.out.println("북서비스 getBookById - 리파지토리 함수호출");
-		Book bookById = bookRepository.getBookById(bookId);
-		System.out.println("bookRepository의 getBookById 호출종료");
-		return bookById;
+		Book bookById = bookRepository.getBookById(bookId);	//책 객체 하나 담음
+		System.out.println("bookRepository의 getBookById 호출종료 - bookinfo 리턴받음");
+		return bookById;	//객체 리턴해줌 - 컨트롤러로 감
 	}
 
 	@Override

@@ -1,8 +1,12 @@
 package com.springmvc.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
@@ -84,10 +89,10 @@ public class BookController
 	public String requestBookById(@RequestParam("id") String bookId, Model model)
 	{
 		System.out.println("북컨트롤러 requestBookById");
-		Book bookById = bookService.getBookById(bookId);
-		model.addAttribute("book",bookById);
+		Book bookById = bookService.getBookById(bookId);	//책객체 리턴받음
+		model.addAttribute("book",bookById);	//모델에 넣기
 		System.out.println("북컨트롤러 requestBookById");
-		return "book";
+		return "book";	//book 페이지로 돌아감
 	}
 	
 	@GetMapping("/add")
@@ -97,9 +102,29 @@ public class BookController
 		return "addBook";
 	}
 	@PostMapping("/add")
-	public String submitAddNewBook(@ModelAttribute("NewBook") Book book)
+	public String submitAddNewBook(@ModelAttribute("NewBook") Book book, HttpServletRequest request)
 	{
 		System.out.println("submitAddNewBook - bookService.setNewBook 호출");
+		MultipartFile bookImage = book.getBookImage();
+		String savepath = request.getServletContext().getRealPath("/resources/images");
+		System.out.println(savepath);
+		String saveName = bookImage.getOriginalFilename();
+		File saveFile = new File(savepath, saveName);
+		
+		if(bookImage != null && !bookImage.isEmpty())
+		{
+			try 
+			{
+				System.out.println("이미지가 있다 - 파일 write");
+				bookImage.transferTo(saveFile);
+			} 
+			catch (Exception e) 
+			{
+				System.out.println("catch 에러에러");
+				e.printStackTrace();
+				throw new RuntimeException("도서 이미지 업로드가 실패하였습니다.", e);
+			}
+		}
 		bookService.setNewBook(book);
 		System.out.println("submitAddNewBook - books로 리다이렉트");
 		return "redirect:/books";

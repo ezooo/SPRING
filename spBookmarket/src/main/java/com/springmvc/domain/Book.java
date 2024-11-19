@@ -1,5 +1,7 @@
 package com.springmvc.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Book 
 {
 	private String bookId;
@@ -12,7 +14,7 @@ public class Book
 	private long unitsInStock;
 	private String releaseDate;
 	private String condition;
-	
+	private MultipartFile bookImage;
 	
 	public Book() 
 	{
@@ -85,6 +87,12 @@ public class Book
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	public MultipartFile getBookImage() {
+		return bookImage;
+	}
+	public void setBookImage(MultipartFile bookImage) {
+		this.bookImage = bookImage;
 	}
 	
 }

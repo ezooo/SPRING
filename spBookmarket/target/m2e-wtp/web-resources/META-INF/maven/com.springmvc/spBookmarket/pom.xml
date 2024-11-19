@@ -11,6 +11,9 @@
       <org.springframework-version>5.3.19</org.springframework-version>
       <org.aspectj-version>1.9.9.1</org.aspectj-version>
       <org.slf4j-version>1.7.36</org.slf4j-version>
+      <!-- 버전 아예 고정해놓고 쓰겠다는거 -->
+      <commons-fileupload-version>1.4</commons-fileupload-version>
+      <commons-io-version>2.11.0</commons-io-version>
    </properties>
    
   <name>spBookmarket Maven Webapp</name>
@@ -49,7 +52,22 @@
          <artifactId>spring-webmvc</artifactId>
          <version>${org.springframework-version}</version>
       </dependency>
+      
+      <!-- file Upload -->
+      <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+	<dependency>
+	    <groupId>commons-fileupload</groupId>
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>${commons-fileupload-version}</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+	<dependency>
+	    <groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+	    <version>${commons-io-version}</version>
+	</dependency>
   </dependencies>
+  
   <build>
     <finalName>spBookmarket</finalName>
     

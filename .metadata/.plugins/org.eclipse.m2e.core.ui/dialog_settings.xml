@@ -26,6 +26,8 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.springmvc.chap09"/>
+			<item value="com.springmvc.chap08"/>
 			<item value="com.springmvc.spBookmarket"/>
 			<item value="com.springmvc.springBookmarket"/>
 			<item value="com.springmvc.chap02"/>
@@ -34,6 +36,8 @@
 			<item value="com.springmvc"/>
 		</list>
 		<list key="artifactId">
+			<item value="chap09"/>
+			<item value="chap08"/>
 			<item value="spBookmarket"/>
 			<item value="springBookmarket"/>
 			<item value="chap02"/>
