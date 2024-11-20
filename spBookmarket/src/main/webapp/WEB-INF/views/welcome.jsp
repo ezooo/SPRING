@@ -10,6 +10,7 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="./home">Home</a>
 			<a class="navbar-brand" href="./books">Books</a>
+			<a class="navbar-brand" href="./books/add">Add</a>
 		</div>
 	</div>
 </nav>

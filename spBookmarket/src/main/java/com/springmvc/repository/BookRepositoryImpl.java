@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 import com.springmvc.domain.Book;
+import com.springmvc.exception.BookIdException;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository
@@ -132,6 +133,7 @@ public class BookRepositoryImpl implements BookRepository
 			Book book = listOfBooks.get(i);
 			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId))
 			{
+				System.out.println("요청 도서가 유효하다");
 				bookInfo = book;	//해당 아이디와 일치하는 책 객체를 변수에 담음
 				System.out.println("bookInfo = book 실행");
 				break;
@@ -139,7 +141,9 @@ public class BookRepositoryImpl implements BookRepository
 		}
 		if(bookInfo == null)
 		{
-			throw new IllegalArgumentException("도서 ID가 "+bookId + "인 해당 도서를 찾을 수 없습니다.");
+			//throw new IllegalArgumentException("도서 ID가 "+bookId + "인 해당 도서를 찾을 수 없습니다.");
+			System.out.println("책 정보를 가져올 수 없어서 예외처리 - BookIdException 클래스 호출");
+			throw new BookIdException(bookId);
 		}
 		System.out.println("getBookById 동작완료");
 		return bookInfo;

@@ -89,9 +89,11 @@ public class Book
 		this.condition = condition;
 	}
 	public MultipartFile getBookImage() {
+		System.out.println("겟 북 이미ㅣ지");
 		return bookImage;
 	}
 	public void setBookImage(MultipartFile bookImage) {
+		System.out.println("셋 북 이미ㅣ지");
 		this.bookImage = bookImage;
 	}
 	

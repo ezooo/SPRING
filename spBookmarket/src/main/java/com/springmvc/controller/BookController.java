@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
@@ -25,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
+import com.springmvc.exception.BookIdException;
+import com.springmvc.exception.CategoryException;
 import com.springmvc.service.BookService;
 
 @Controller
@@ -69,6 +72,12 @@ public class BookController
 	{
 		System.out.println("BookController - 카테고리별 책 가져오기 진입");
 		List<Book> booksByCategory = bookService.getBookListByCategory(bookCategory);
+		
+		if(booksByCategory == null || booksByCategory.isEmpty())
+		{
+			System.out.println("booksByCategory 유효성 검사");
+			throw new CategoryException();
+		}
 		model.addAttribute("bookList", booksByCategory);
 		System.out.println("BookController - 카테고리별 책 실어보내기 완료");
 		return "books";
@@ -98,14 +107,15 @@ public class BookController
 	@GetMapping("/add")
 	public String requestAddBookForm(@ModelAttribute("NewBook") Book book)
 	{
-		System.out.println("requestAddBookForm - addBook으로 리턴");
+		System.out.println("requestAddBookForm - addBook으로 리턴 - 책 등록 페이지 가기");
 		return "addBook";
 	}
 	@PostMapping("/add")
 	public String submitAddNewBook(@ModelAttribute("NewBook") Book book, HttpServletRequest request)
 	{
-		System.out.println("submitAddNewBook - bookService.setNewBook 호출");
+		System.out.println("submitAddNewBook - 폼 제출 받음 bookService.setNewBook 호출");
 		MultipartFile bookImage = book.getBookImage();
+		System.out.println("북 이미지 받아옴 "+bookImage);
 		String savepath = request.getServletContext().getRealPath("/resources/images");
 		System.out.println(savepath);
 		String saveName = bookImage.getOriginalFilename();
@@ -129,6 +139,7 @@ public class BookController
 		System.out.println("submitAddNewBook - books로 리다이렉트");
 		return "redirect:/books";
 	}
+	
 	@ModelAttribute
 	public void addAttributes(Model model)
 	{
@@ -141,6 +152,17 @@ public class BookController
 	public void initBinder(WebDataBinder binder)
 	{
 		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description",
-				"publisher", "category", "unitsInStock", "totalPages", "releaseDate", "condition");
+				"publisher", "category", "unitsInStock", "totalPages", "releaseDate", "condition", "bookImage");
+	}
+	
+	@ExceptionHandler(value= {BookIdException.class})
+	public ModelAndView handleError(HttpServletRequest req, BookIdException exception)
+	{
+		ModelAndView mav = new ModelAndView();	//모델앤뷰 클래스 객체 생성
+		mav.addObject("invalidBookId", exception.getBookId());	//모델속성 invalidBookId에 요청한 도서 아이디 값 저장
+		mav.addObject("exception", exception);
+		mav.addObject("url", req.getRequestURI()+"?"+req.getQueryString()); //모델속성 url에서 요청URL과 요청 쿼리문 저장
+		mav.setViewName("errorBook");
+		return mav;
 	}
 }
