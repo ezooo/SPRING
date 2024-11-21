@@ -11,7 +11,7 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<!-- 핸들러매핑과 핸들러어답터를 자동으로 객체 생성함 -->
-	<annotation-driven enable-matrix-variables="true"></annotation-driven>
+	<annotation-driven enable-matrix-variables="true" validator="validator"></annotation-driven>  <!-- validator="validator" 이거 까먹으면안됨 -->
 	<resources location="/resources/" mapping="/resources/**"></resources>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -47,5 +47,18 @@
 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<beans:property name="basename" value="messages" />
 		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+	
+	<beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<beans:property name="validationMessageSource" ref="messageSource" />
+	</beans:bean>
+	<beans:bean id="unitsInStockValidator" class="com.springmvc.validator.UnitsInStockValidator">
+	</beans:bean>
+	<beans:bean id="bookValidator" class="com.springmvc.validator.BookValidator">
+		<beans:property name="springValidators">
+			<beans:set>
+				<beans:ref bean="unitsInStockValidator"/>
+			</beans:set>
+		</beans:property>
 	</beans:bean>
 </beans:beans>

@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,8 @@ import com.springmvc.domain.Book;
 import com.springmvc.exception.BookIdException;
 import com.springmvc.exception.CategoryException;
 import com.springmvc.service.BookService;
+import com.springmvc.validator.BookValidator;
+import com.springmvc.validator.UnitsInStockValidator;
 
 @Controller
 @RequestMapping("/books")
@@ -38,6 +42,13 @@ public class BookController
 	private BookService bookService;
 	//bookservice도 component scan 되어있어야 Autowired 될 수 있다. 다 같이 스캔되어야 쓸 수 있음
 	//수동생성한거는 Autowired 안됨
+	
+	@Autowired
+	private BookValidator bookValidator;	//BookValidator의 인스턴스 선언
+	
+	//UnitsInStockValidator의 인스턴스 선언
+	//@Autowired
+	//private UnitsInStockValidator unitsInStockValidator;
 	
 	@GetMapping
 	public String requestBookList(Model model)
@@ -111,9 +122,15 @@ public class BookController
 		return "addBook";
 	}
 	@PostMapping("/add")
-	public String submitAddNewBook(@ModelAttribute("NewBook") Book book, HttpServletRequest request)
-	{
+	public String submitAddNewBook(@Valid @ModelAttribute("NewBook") Book book, BindingResult result, HttpServletRequest request)
+	{	//valid 로 유효성검사		//BindingResult result, HttpServletRequest request 순서 바뀌면 에러남
 		System.out.println("submitAddNewBook - 폼 제출 받음 bookService.setNewBook 호출");
+		if(result.hasErrors())
+		{
+			System.out.println("submitAddNewBook 유효성 검사 오류 발견");
+			return "addBook";
+		}
+		
 		MultipartFile bookImage = book.getBookImage();
 		System.out.println("북 이미지 받아옴 "+bookImage);
 		String savepath = request.getServletContext().getRealPath("/resources/images");
@@ -151,6 +168,10 @@ public class BookController
 	@InitBinder
 	public void initBinder(WebDataBinder binder)
 	{
+		//생성한 unitsInStockValidator 설정
+		//binder.setValidator(unitsInStockValidator);
+		binder.setValidator(bookValidator);
+		
 		binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description",
 				"publisher", "category", "unitsInStock", "totalPages", "releaseDate", "condition", "bookImage");
 	}
