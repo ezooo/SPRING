@@ -16,7 +16,8 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
-			<a class="navbar-brand" href="./books/add">Add</a>
+			<a class="navbar-brand" href="/spBookmarket/books/add">Add</a>
+			<a class="navbar-brand" href="/spBookmarket/cart">Cart</a>
 		</div>
 	</div>
 </nav>

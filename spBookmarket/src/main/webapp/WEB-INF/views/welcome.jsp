@@ -1,16 +1,17 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="/spBookmarket/resources/css/bootstrap.min.css"></link>
 	<title>Welcome</title>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="./home">Home</a>
-			<a class="navbar-brand" href="./books">Books</a>
-			<a class="navbar-brand" href="./books/add">Add</a>
+			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
+			<a class="navbar-brand" href="/spBookmarket/books">Books</a>
+			<a class="navbar-brand" href="/spBookmarket/books/add">Add</a>
+			<a class="navbar-brand" href="/spBookmarket/cart">Cart</a>
 		</div>
 	</div>
 </nav>

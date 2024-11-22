@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/spBookmarket/resources/css/bootstrap.min.css"></link>
+<script src="/spBookmarket/resources/js/controllers.js"><</script>
 <title>도서 상세 정보</title>
 </head>
 
@@ -45,8 +47,12 @@
 			<p><b>분류 : </b> ${book.category}</p>
 			<p><b>재고수 : </b> ${book.unitsInStock}</p>
 			<h4>${book.unitPrice}원</h4>
-			<p><a href="#" class="btn btn-primary" role="button">도서주문 &raquo;</a>
-				<a href="<c:url value="/books"/>" class="btn btn-secondary" role="button">도서목록 &raquo;</a></p>		
+			<br>
+			<form:form name="addForm" method="PUT">
+				<p><a href="javascript:addToCart('../cart/add/${book.bookId}')" class="btn btn-primary">도서주문 &raquo;</a>
+					<a href="<c:url value="/cart"/>" class="btn btn-warning" role="button">장바구니 &raquo;</a>
+					<a href="<c:url value="/books"/>" class="btn btn-secondary" role="button">도서목록 &raquo;</a></p>		
+			</form:form>
 		</div>
 	</div>
 	<hr>
@@ -55,4 +61,14 @@
 	</footer>
 </div>
 </body>
+<!-- 
+<script >	//src="/spBookmarket/resources/js/controllers.js"
+function addToCart(action)
+{
+	console.log("addToCart 함수 호출됨");
+	document.addForm.action = action;
+	document.addForm.submit();
+	alert("도서가 장바구니에 추가되었습니다!");
+}
+</script> -->
 </html>
