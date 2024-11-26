@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -61,4 +63,19 @@
 			</beans:set>
 		</beans:property>
 	</beans:bean>
+	
+	 <!-- 웹 플로우 적용을 위한 환경설정 -->
+	<webflow:flow-registry id="flowRegistry">
+		<webflow:flow-location path="/WEB-INF/flows/order/order-flow.xml" id="order"></webflow:flow-location>
+	</webflow:flow-registry>
+	
+	<webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry"></webflow:flow-executor>
+	
+	<beans:bean id="flowHandlerMapping" class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<beans:property name="flowRegistry" ref="flowRegistry"></beans:property>
+	</beans:bean>
+	<beans:bean id="flowHandlerAdapter" class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<beans:property name="flowExecutor" ref="flowExecutor"></beans:property>
+	</beans:bean>
+	
 </beans:beans>

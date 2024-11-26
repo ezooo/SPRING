@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						 http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+	
+	<var name="order" class="com.springmvc.domain.Order"></var>
+
+	<action-state id="addCartToOrder">	<!-- 액션 결과를 기반으로 다른 상태로 전환 -->
+		<evaluate expression="cartServiceImpl.validateCart(requestParameters.cartId)" result="order.cart"></evaluate>
+		<transition to="orderCartWarning" on-exception="com.springmvc.exception.CartException"></transition>
+		<transition to="orderCustomerInfo"></transition>
+	</action-state>
+
+	<view-state id="orderCustomerInfo" model="order">
+		<transition on="customerInfo" to="orderShippingInfo"></transition>
+		<!-- customerInfo 라는 이벤트가 발생하면 orderShippingInfo 라는 뷰로 이동 -->
+	</view-state>
+	
+	<view-state id="orderShippingInfo" model="order">
+		<transition on="shippingInfo" to="orderConfirmation"></transition>
+		<transition on="backToCustomerInfo" to="orderCustomerInfo"></transition>
+	</view-state>
+	
+	<view-state id="orderConfirmation">
+		<transition on="orderConfirmed" to="confirmOrder"></transition>
+		<transition on="backToShippingInfo" to="orderShippingInfo"></transition>
+	</view-state>
+	
+	<action-state id="confirmOrder">
+		<evaluate expression="orderServiceImpl.saveOrder(order)" result="order.orderId"></evaluate>	<!-- 변수/함수 호출해서 값을 result에 저장 -->
+		<transition to="orderFinished"></transition>
+	</action-state>
+	
+	<view-state id="orderCartWarning">
+		<transition to="endState"></transition>
+	</view-state>
+	
+	<view-state id="orderFinished" model="order">
+		<transition to="endState"></transition>
+	</view-state>
+	
+	<end-state id="endState"></end-state>
+	<end-state id="orderCancelled" view="orderCartWarning.jsp"></end-state>
+	
+	<global-transitions>
+		<transition on="cancel" to="endState"></transition>
+	</global-transitions>
+</flow>
+						 

@@ -1,7 +1,14 @@
 package com.springmvc.domain;
 
-public class CartItem 
+import java.io.Serializable;
+
+public class CartItem implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2220274791589791282L;
+	
 	private Book book;
 	private int quantity;	//장바구니 담긴 물건 갯수
 	private int totalPrice;
