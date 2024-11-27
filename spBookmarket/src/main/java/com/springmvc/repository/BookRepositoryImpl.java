@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.springmvc.domain.Book;
 import com.springmvc.exception.BookIdException;
@@ -13,6 +17,15 @@ import com.springmvc.exception.BookIdException;
 @Repository
 public class BookRepositoryImpl implements BookRepository
 {
+	//db 연결을 위한 추가 코드 작성
+	private JdbcTemplate template;	
+	@Autowired
+	public void setJdbctemplate(DataSource dataSource)
+	{	//db연동을 위해 스프링 mvc 설정 파일의 datasource를 JdbcTemplate 클래스에 전달
+		System.out.println("BookRepositoryImpl setJdbctemplate in");
+		this.template = new JdbcTemplate(dataSource);
+	}
+	
 	private List<Book> listOfBooks = new ArrayList<Book>();
 	public BookRepositoryImpl() 
 	{ 
@@ -50,9 +63,50 @@ public class BookRepositoryImpl implements BookRepository
 	public List<Book> getAllBookList() 
 	{
 		System.out.println("리파지토리 겟올북리스트");
+		//db연결 추가
+		String SQL = "select * from book";
+		List<Book> listOfBooks = template.query(SQL, new BookRowMapper());
+		System.out.println("리파지토리 겟올북리스트 - db 조회쿼리");
 		return listOfBooks;
 	}
-
+	
+	@Override
+	public Book getBookById(String bookId) 
+	{
+		System.out.println("리파지토리 : getBookById 진입");
+		System.out.println("북아이디는 "+bookId);
+		Book bookInfo = null;
+		//db연결 추가
+		String SQL = "select count(*) from book where b_bookId=?";
+		int rowCount = template.queryForObject(SQL, Integer.class, bookId);
+		if(rowCount != 0)
+		{
+			System.out.println("리파지토리 : getBookById - 레코드 갯수가 하나 이상이다");
+			SQL = "select * from book where b_bookId=?";
+			bookInfo = template.queryForObject(SQL, new Object[] {bookId}, new BookRowMapper());
+		}
+		System.out.println("리파지토리 겟올북리스트 - db 조회쿼리");
+//		for(int i=0; i<listOfBooks.size(); i++)
+//		{
+//			Book book = listOfBooks.get(i);
+//			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId))
+//			{
+//				System.out.println("요청 도서가 유효하다");
+//				bookInfo = book;	//해당 아이디와 일치하는 책 객체를 변수에 담음
+//				System.out.println("bookInfo = book 실행");
+//				break;
+//			}
+//		}
+		if(bookInfo == null)
+		{
+			//throw new IllegalArgumentException("도서 ID가 "+bookId + "인 해당 도서를 찾을 수 없습니다.");
+			System.out.println("책 정보를 가져올 수 없어서 예외처리 - BookIdException 클래스 호출");
+			throw new BookIdException(bookId);
+		}
+		System.out.println("getBookById 동작완료");
+		return bookInfo;
+	}
+	
 	@Override
 	public List<Book> getBookListByCategory(String category) 
 	{
@@ -78,76 +132,76 @@ public class BookRepositoryImpl implements BookRepository
 		Set<Book> booksByPublisher = new HashSet<Book>();	//해당 출판사에 해당하는 책 담을 컬렉션프레임워크
 		Set<Book> booksByCategory = new HashSet<Book>();	//해당 카테고리에 해당하는 책 담을 컬렉션프레임워크
 		
-		Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
-		
-		for(String key : filter.keySet()) 
-		{	//안에 뭐 들어있는지 확인하기 위한 코드 (프로그램 동작에 관여하지는 않음)
-             List<String> values = filter.get(key);
-             System.out.println("key : "+key+", value : "+values);
-        }
-		
-		if(booksByFilter.contains("publisher"))
+		Set<String> criterias = filter.keySet();
+		if(criterias.contains("publisher"))
 		{	// 전달받은 파라미터 키 중에 publisher 가 있다면
 			System.out.println("필터에 출판사가 포함되어있다");
 			for(int i=0; i<filter.get("publisher").size(); i++)
 			{	//키가 가진 value의 갯수만큼 반복
 				String publisherName = filter.get("publisher").get(i);	//인덱스 이용해서 하나씩 꺼내서 변수에 담기
-				for(int j=0; j<listOfBooks.size(); j++)
-				{
-					Book book = listOfBooks.get(j);
-					
-					if(publisherName.equalsIgnoreCase(book.getPublisher()))
-					{
-						System.out.println(j+ " 출판사 이름이 유효하다");
-						booksByPublisher.add(book);
-					}
-				}
+				String SQL = "select * from book where b_publisher LIKE '%" + publisherName + "%'";
+				booksByPublisher.addAll(template.query(SQL, new BookRowMapper()));
 			}
 			System.out.println("필터 - 출판사 for문 종료");
 		}
-		
-		if(booksByFilter.contains("category"))
+		if(criterias.contains("category"))
 		{
 			System.out.println("필터에 출판사가 포함되어있다");
 			for(int i=0; i<filter.get("category").size(); i++)
 			{
 				String category = filter.get("category").get(i);
-				List<Book> list = getBookListByCategory(category);
-				booksByCategory.addAll(list);
+				String SQL = "select * from book where b_category LIKE '%" + category + "%'";
+				booksByCategory.addAll(template.query(SQL, new BookRowMapper()));
 			}
 			System.out.println("필터 - 카테고리 for문 종료");
 		}
+		
+		//Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
+		
+//		for(String key : filter.keySet()) 
+//		{	//안에 뭐 들어있는지 확인하기 위한 코드 (프로그램 동작에 관여하지는 않음)
+//             List<String> values = filter.get(key);
+//             System.out.println("key : "+key+", value : "+values);
+//      }
+//		
+//		if(booksByFilter.contains("publisher"))
+//		{	// 전달받은 파라미터 키 중에 publisher 가 있다면
+//			System.out.println("필터에 출판사가 포함되어있다");
+//			for(int i=0; i<filter.get("publisher").size(); i++)
+//			{	//키가 가진 value의 갯수만큼 반복
+//				String publisherName = filter.get("publisher").get(i);	//인덱스 이용해서 하나씩 꺼내서 변수에 담기
+//				for(int j=0; j<listOfBooks.size(); j++)
+//				{
+//					Book book = listOfBooks.get(j);
+//					
+//					if(publisherName.equalsIgnoreCase(book.getPublisher()))
+//					{
+//						System.out.println(j+ " 출판사 이름이 유효하다");
+//						booksByPublisher.add(book);
+//					}
+//				}
+//			}
+//			System.out.println("필터 - 출판사 for문 종료");
+//		}
+//		
+//		if(booksByFilter.contains("category"))
+//		{
+//			System.out.println("필터에 출판사가 포함되어있다");
+//			for(int i=0; i<filter.get("category").size(); i++)
+//			{
+//				String category = filter.get("category").get(i);
+//				List<Book> list = getBookListByCategory(category);
+//				booksByCategory.addAll(list);
+//			}
+//			System.out.println("필터 - 카테고리 for문 종료");
+//		}
 		booksByCategory.retainAll(booksByPublisher);
 		System.out.println("필터 함수 종료 -- 함수를 호출한 북 서비스로 돌아갑니다.");
 		return booksByCategory;
 	}
 
 	
-	@Override
-	public Book getBookById(String bookId) 
-	{
-		System.out.println("리파지토리 : getBookById 진입");
-		Book bookInfo = null;
-		for(int i=0; i<listOfBooks.size(); i++)
-		{
-			Book book = listOfBooks.get(i);
-			if(book != null && book.getBookId()!=null && book.getBookId().equals(bookId))
-			{
-				System.out.println("요청 도서가 유효하다");
-				bookInfo = book;	//해당 아이디와 일치하는 책 객체를 변수에 담음
-				System.out.println("bookInfo = book 실행");
-				break;
-			}
-		}
-		if(bookInfo == null)
-		{
-			//throw new IllegalArgumentException("도서 ID가 "+bookId + "인 해당 도서를 찾을 수 없습니다.");
-			System.out.println("책 정보를 가져올 수 없어서 예외처리 - BookIdException 클래스 호출");
-			throw new BookIdException(bookId);
-		}
-		System.out.println("getBookById 동작완료");
-		return bookInfo;
-	}
+
 
 	@Override
 	public void setNewBook(Book book) 
@@ -155,6 +209,26 @@ public class BookRepositoryImpl implements BookRepository
 		System.out.println("setNewBook 진입");
 		listOfBooks.add(book);
 		System.out.println("setNewBook 동작완료");
+	}
+
+	@Override
+	public void setUpdateBook(Book book) 
+	{
+		System.out.println("북리파지토리 - setNewBook 진입");
+		if(book.getFileName() != null)
+		{
+			String SQL = "update book set b_name=?, b_unitPrice=?, b_author=?, b_description=?, "
+					+ "b_publisher=?, b_category=?, b_unitsInStock=?, b_releaseDate=?, b_condition=?, b_fileName=? where b_bookId=?";
+			template.update(SQL, book.getName(), book.getUnitPrice(), book.getAuthor(), book.getDescription(), book.getPublisher(), book.getCategory(),
+								book.getUnitsInStock(), book.getReleaseDate(), book.getCondition(), book.getFileName(), book.getBookId());
+		}
+		else if(book.getFileName() == null)
+		{
+			String SQL = "update book set b_name=?, b_unitPrice=?, b_author=?, b_description=?, "
+					+ "b_publisher=?, b_category=?, b_unitsInStock=?, b_releaseDate=?, b_condition=? where b_bookId=?";
+			template.update(SQL, book.getName(), book.getUnitPrice(), book.getAuthor(), book.getDescription(), book.getPublisher(), book.getCategory(),
+					book.getUnitsInStock(), book.getReleaseDate(), book.getCondition(), book.getBookId());
+		}
 	}
 
 	

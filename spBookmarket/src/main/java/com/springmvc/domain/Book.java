@@ -14,11 +14,6 @@ import com.springmvc.validator.BookId;
 
 public class Book implements Serializable
 {
-	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8692919825743464166L;
 
 	@BookId
@@ -41,6 +36,7 @@ public class Book implements Serializable
 	private String releaseDate;
 	private String condition;
 	private MultipartFile bookImage;
+	private String fileName;	//이미지 파일 이름을 저장+관리하기 위한 필드 추가
 	
 	public Book() 
 	{
@@ -55,6 +51,7 @@ public class Book implements Serializable
 	
 	
 	public String getBookId() {
+		System.out.println("domain Book - getBookId - fileName 은: "+ fileName);
 		return bookId;
 	}
 	public void setBookId(String bookId) {
@@ -121,6 +118,12 @@ public class Book implements Serializable
 	public void setBookImage(MultipartFile bookImage) {
 		System.out.println("셋 북 이미ㅣ지");
 		this.bookImage = bookImage;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }

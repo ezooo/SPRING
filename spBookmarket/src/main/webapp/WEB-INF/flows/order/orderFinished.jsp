@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
@@ -23,7 +23,7 @@
 	<div class="container">
 		<h1 class="display-3">주문완료</h1>
 	</div>
-</div>
+</div> -->
 <div class="container">
 	<h2 class="alert alert-danger">주문해주셔서 감사합니다.</h2>
 	<p>

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
@@ -24,13 +24,16 @@
 	<div class="container">
 		<h1 class="display-3"><spring:message code="addBook.form.title.label"></spring:message></h1>
 	</div>
-</div>
-
+</div> -->
+<!-- 
 <div class="float-right" style="padding-right:30px">
 	<a href="?language=ko">Korean</a> | <a href="?language=en">English</a>
-</div>
+</div> -->
 
 <div class="container">
+	<div class="float-right" style="padding-right:30px">
+		<a href="?language=ko">Korean</a> | <a href="?language=en">English</a>
+	</div>
 	<form:form modelAttribute="NewBook" action="./add?${_csrf.parameterName }=${_csrf.token }"
 		 class="form-horizontal" enctype="multipart/form-data">
 	<fieldset>
@@ -124,9 +127,9 @@
 	</form:form>
 	
 	<hr>
-	<footer>
+<!-- 	<footer>
 		<p>&copy; WebMarket</p>
-	</footer>
+	</footer> -->
 </div>
 </body>
 </html>

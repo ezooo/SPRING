@@ -58,4 +58,11 @@ public class BookServiceImpl implements BookService
 		bookRepository.setNewBook(book);
 		System.out.println("북서비스 셋뉴북 - 리파지토리 셋 완료");
 	}
+
+	@Override
+	public void setUpdateBook(Book book) 
+	{
+		System.out.println("북서비스 setUpdateBook - 리파지토리 함수호출");
+		bookRepository.setUpdateBook(book);
+	}
 }

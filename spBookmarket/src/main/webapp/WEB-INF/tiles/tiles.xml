@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+			"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+			
+<tiles-definitions>
+	<definition name="base-Template" template="/WEB-INF/tiles/layout/baseLayout.jsp">
+		<put-attribute name="title" value="Sample Title"></put-attribute>
+		<put-attribute name="heading" value=""></put-attribute>
+		<put-attribute name="subheading" value=""></put-attribute>
+		<put-attribute name="menu" value="/WEB-INF/tiles/template/menu.jsp"></put-attribute>
+		<put-attribute name="content" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/tiles/template/footer.jsp"></put-attribute>
+	</definition>
+	
+	<!-- 뷰 페이지에 타일즈 적용 -->
+	<definition name="welcome" extends="base-Template">
+		<put-attribute name="title" value="Welcome"></put-attribute>
+		<put-attribute name="heading" value="도서 웹 쇼핑몰"></put-attribute>
+		<put-attribute name="subheading" value="Welcome to BookMarket"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/welcome.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="books" extends="base-Template">
+		<put-attribute name="title" value="Books"></put-attribute>
+		<put-attribute name="heading" value="도서 목록"></put-attribute>
+		<put-attribute name="subheading" value="Books List"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/books.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="book" extends="base-Template">
+		<put-attribute name="title" value="Book"></put-attribute>
+		<put-attribute name="heading" value="도서 정보"></put-attribute>
+		<put-attribute name="subheading" value="Book Details"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/book.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="addBook" extends="base-Template">
+		<put-attribute name="title" value="Books"></put-attribute>
+		<put-attribute name="heading" value="도서 등록"></put-attribute>
+		<put-attribute name="subheading" value="Book Addition"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/addBook.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="login" extends="base-Template">
+		<put-attribute name="title" value="Login"></put-attribute>
+		<put-attribute name="heading" value="로그인"></put-attribute>
+		<put-attribute name="subheading" value="Login"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/login.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="cart" extends="base-Template">
+		<put-attribute name="title" value="Shopping Cart"></put-attribute>
+		<put-attribute name="heading" value="장바구니"></put-attribute>
+		<put-attribute name="subheading" value="Shopping Cart"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/cart.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="orderCustomerInfo" extends="base-Template">
+		<put-attribute name="title" value="Order"></put-attribute>
+		<put-attribute name="heading" value="고객정보"></put-attribute>
+		<put-attribute name="subheading" value="Customer Details"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderCustomerInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="orderShippingInfo" extends="base-Template">
+		<put-attribute name="title" value="Order"></put-attribute>
+		<put-attribute name="heading" value="배송정보"></put-attribute>
+		<put-attribute name="subheading" value="Shipping Details"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderShippingInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="orderConfirmation" extends="base-Template">
+		<put-attribute name="title" value="Order"></put-attribute>
+		<put-attribute name="heading" value="주문정보"></put-attribute>
+		<put-attribute name="subheading" value="Order Confirmation"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderConfirmation.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="orderFinished" extends="base-Template">
+		<put-attribute name="title" value="Order"></put-attribute>
+		<put-attribute name="heading" value="주문완료"></put-attribute>
+		<put-attribute name="subheading" value="Thank you"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderFinished.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="orderCartWarning" extends="base-Template">
+		<put-attribute name="title" value="Order"></put-attribute>
+		<put-attribute name="heading" value="주문취소"></put-attribute>
+		<put-attribute name="subheading" value="orderCartWarning"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/flows/order/orderCartWarning.jsp"></put-attribute>
+	</definition>
+
+</tiles-definitions>

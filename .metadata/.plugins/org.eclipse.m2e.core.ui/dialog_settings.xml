@@ -26,14 +26,17 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.springproject.howAbout"/>
 			<item value="com.spring.jsontest"/>
 			<item value="com.springmvc.chap14"/>
 		</list>
 		<list key="groupId">
+			<item value="com.springproject"/>
 			<item value="com.spring"/>
 			<item value="com.springmvc"/>
 		</list>
 		<list key="artifactId">
+			<item value="howAbout"/>
 			<item value="jsontest"/>
 			<item value="chap14"/>
 		</list>

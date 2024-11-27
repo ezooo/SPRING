@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/spBookmarket/home">Home</a>
@@ -23,7 +23,7 @@
 	<div class="container">
 		<h1 class="display-3">배송정보</h1>
 	</div>
-</div>
+</div> -->
 
 <div class="container">
 	<form:form modelAttribute="order.shipping" class="form-horizontal">

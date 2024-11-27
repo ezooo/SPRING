@@ -186,4 +186,25 @@ public class BookController
 		mav.setViewName("errorBook");
 		return mav;
 	}
+	
+	@GetMapping("/update")
+	public String getUpdateBookForm(@ModelAttribute("updateBook") Book book, @RequestParam("id") String bookId, Model model)
+	{
+		System.out.println("북컨트롤러 getUpdateBookForm in");
+		Book bookById = bookService.getBookById(bookId);
+		model.addAttribute("book", bookById);
+		System.out.println("북컨트롤러 getUpdateBookForm addAttribute 완료");
+		return "updateForm";
+	}
+	
+	public String submitUpdateBookForm(@ModelAttribute("updateBook") Book book, HttpServletRequest request)
+	{
+		System.out.println("북컨트롤러 submitUpdateBookForm in");
+		MultipartFile bookImage = book.getBookImage();
+		String rootDirectory = request.getServletContext().getRealPath("/resources/images");
+		System.out.println("rootDirectory 는 "+rootDirectory);
+		
+		System.out.println("북컨트롤러 submitUpdateBookForm addAttribute 완료");
+		return "updateForm";
+	}
 }
