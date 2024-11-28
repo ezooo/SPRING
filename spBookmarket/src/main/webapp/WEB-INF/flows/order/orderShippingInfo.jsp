@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@
 			<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}"></input>
 			<div class="form-group row">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-default" name="_eventId_backToCustomerInfo">취소</button>
+					<button class="btn btn-default" name="_eventId_backToCustomerInfo">이전</button>
 					<input type="submit" class="btn btn-primary" value="등록" name="_eventId_shippingInfo" />
 					<button class="btn btn-default" name="_eventId_cancel">취소</button>
 				</div>

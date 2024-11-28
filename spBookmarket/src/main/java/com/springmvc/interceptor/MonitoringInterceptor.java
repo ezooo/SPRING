@@ -30,7 +30,7 @@ public class MonitoringInterceptor implements HandlerInterceptor
 		
 		logger.info("접근한 URL 경로 : "+ getURLPath(request));
 		logger.info("요청 처리 시작 시각 : "+ getCurrentTime());
-		System.out.println("프리핸들 로그남김");
+		//System.out.println("프리핸들 로그남김");
 		return true;
 	}
 
@@ -40,7 +40,7 @@ public class MonitoringInterceptor implements HandlerInterceptor
 	{	//웹 요청을 컨트롤러가 처리한 후 호출
 		//System.out.println("postHandle 호출됨");
 		logger.info("요청 처리 종료 시각 : "+ getCurrentTime());
-		System.out.println("포스트핸들 로그남김");
+		//System.out.println("포스트핸들 로그남김");
 	}
 
 	@Override

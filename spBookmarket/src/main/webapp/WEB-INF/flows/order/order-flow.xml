@@ -20,6 +20,7 @@
 	<view-state id="orderShippingInfo" model="order">
 		<transition on="shippingInfo" to="orderConfirmation"></transition>
 		<transition on="backToCustomerInfo" to="orderCustomerInfo"></transition>
+		<transition on="cancel" to="endState"></transition>
 	</view-state>
 	
 	<view-state id="orderConfirmation">

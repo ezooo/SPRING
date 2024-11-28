@@ -60,7 +60,7 @@
 		<put-attribute name="heading" value="고객정보"></put-attribute>
 		<put-attribute name="subheading" value="Customer Details"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/flows/order/orderCustomerInfo.jsp"></put-attribute>
-	</definition>
+	</definition> 
 	
 	<definition name="orderShippingInfo" extends="base-Template">
 		<put-attribute name="title" value="Order"></put-attribute>
@@ -82,12 +82,12 @@
 		<put-attribute name="subheading" value="Thank you"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/flows/order/orderFinished.jsp"></put-attribute>
 	</definition>
-	
+	 
 	<definition name="orderCartWarning" extends="base-Template">
 		<put-attribute name="title" value="Order"></put-attribute>
 		<put-attribute name="heading" value="주문취소"></put-attribute>
-		<put-attribute name="subheading" value="orderCartWarning"></put-attribute>
+		<put-attribute name="subheading" value="order CartWarning"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/flows/order/orderCartWarning.jsp"></put-attribute>
-	</definition>
+	</definition> 
 
 </tiles-definitions>

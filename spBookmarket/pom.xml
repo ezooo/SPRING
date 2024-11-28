@@ -81,6 +81,13 @@
 	     <artifactId>spring-security-config</artifactId>
 	     <version>${security.version}</version>
 	 </dependency>
+		 <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+	 <dependency>	<!--스프링시큐리티 태그를 사용하려고 등록 한다는데 왜 써야하냐고-->
+	     <groupId>org.springframework.security</groupId>
+	     <artifactId>spring-security-taglibs</artifactId>
+	     <version>${security.version}</version>
+	 </dependency>
+
 	
       <!-- file Upload -->
       <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->

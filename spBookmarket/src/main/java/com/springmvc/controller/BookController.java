@@ -134,16 +134,20 @@ public class BookController
 		MultipartFile bookImage = book.getBookImage();
 		System.out.println("북 이미지 받아옴 "+bookImage);
 		String savepath = request.getServletContext().getRealPath("/resources/images");
+			//저장경로 설정을 위해 프로젝트 리소스 폴더인 /resources/images 의 실제 저장경로를 받아옴
 		System.out.println(savepath);
-		String saveName = bookImage.getOriginalFilename();
+		String saveName = bookImage.getOriginalFilename();	//실제 파일이름으로 저장을 하겠다
 		File saveFile = new File(savepath, saveName);
+			//savepath 라는 경로에 saveName이라는 이름으로 새 파일을 만듦
 		
 		if(bookImage != null && !bookImage.isEmpty())
 		{
 			try 
 			{
 				System.out.println("이미지가 있다 - 파일 write");
-				bookImage.transferTo(saveFile);
+				bookImage.transferTo(saveFile);	//saveFile에 저장되어있는 파일에 북이미지 내용 작성
+				book.setFileName(saveName);	//도서 등록을 취한 구문 추가
+				System.out.println("submitAddNewBook - 파일 작성 완료");
 			} 
 			catch (Exception e) 
 			{
@@ -204,7 +208,25 @@ public class BookController
 		String rootDirectory = request.getServletContext().getRealPath("/resources/images");
 		System.out.println("rootDirectory 는 "+rootDirectory);
 		
+		if(bookImage != null && !bookImage.isEmpty())
+		{	
+			System.out.println("submitUpdateBookForm 이미지 가져올거 있음");
+			try
+			{
+				String fname = bookImage.getOriginalFilename();
+				bookImage.transferTo(new File(rootDirectory+fname));
+				book.setFileName(fname);
+				System.out.println("submitUpdateBookForm 이미지 파일 작성");
+			}
+			catch(Exception e)
+			{
+				System.out.println("submitUpdateBookForm 이미지 파일 작성 실패 에러에러");
+				throw new RuntimeException("book image saving failed",e);
+			}
+		}
+		bookService.setUpdateBook(book);
 		System.out.println("북컨트롤러 submitUpdateBookForm addAttribute 완료");
-		return "updateForm";
+		//return "updateForm";
+		return "redirect:/books";
 	}
 }

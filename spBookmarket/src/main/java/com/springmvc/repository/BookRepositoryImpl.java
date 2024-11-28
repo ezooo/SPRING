@@ -112,15 +112,18 @@ public class BookRepositoryImpl implements BookRepository
 	{
 		System.out.println("리파지토리 카테고리 책 목록 가져오기 함수 진입");
 		List<Book> booksByCategory = new ArrayList<Book>();
-		for(int i=0; i<listOfBooks.size(); i++)
-		{
-			Book book = listOfBooks.get(i);
-			if(category.equalsIgnoreCase(book.getCategory()))
-			{	//받아온 카테고리랑 전체 책 하나씩 비교
-				System.out.println(i+"번째 책은 "+category+" 카테고리에 포함됨. 리스트에 추가하기");
-				booksByCategory.add(book);
-			}
-		}
+		//db연결
+		String SQL = "select * from book where b_category LIKE '%"+category+"%'";
+		booksByCategory = template.query(SQL, new BookRowMapper());
+//		for(int i=0; i<listOfBooks.size(); i++)
+//		{
+//			Book book = listOfBooks.get(i);
+//			if(category.equalsIgnoreCase(book.getCategory()))
+//			{	//받아온 카테고리랑 전체 책 하나씩 비교
+//				System.out.println(i+"번째 책은 "+category+" 카테고리에 포함됨. 리스트에 추가하기");
+//				booksByCategory.add(book);
+//			}
+//		}
 		System.out.println("카테고리 검사 종료 -- 함수를 호출한 북 서비스로 돌아갑니다.");
 		return booksByCategory;
 	}
@@ -156,8 +159,8 @@ public class BookRepositoryImpl implements BookRepository
 			System.out.println("필터 - 카테고리 for문 종료");
 		}
 		
-		//Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
-		
+//		Set<String> booksByFilter = filter.keySet();	//전달받은 파라미터(맵)의 키 담을 컬렉션프레임워크
+//		
 //		for(String key : filter.keySet()) 
 //		{	//안에 뭐 들어있는지 확인하기 위한 코드 (프로그램 동작에 관여하지는 않음)
 //             List<String> values = filter.get(key);
@@ -207,7 +210,11 @@ public class BookRepositoryImpl implements BookRepository
 	public void setNewBook(Book book) 
 	{
 		System.out.println("setNewBook 진입");
-		listOfBooks.add(book);
+		String SQL = "insert into book(b_bookId, b_name, b_unitPrice, b_author, b_description, b_publisher,"
+				+ " b_category, b_unitsInStock, b_releaseDate, b_condition, b_fileName)" + "values(?,?,?,?,?,?,?,?,?,?,?)";
+		template.update(SQL, book.getBookId(), book.getName(), book.getUnitPrice(), book.getAuthor(), book.getDescription(), book.getPublisher(), 
+							book.getCategory(),	book.getUnitsInStock(), book.getReleaseDate(), book.getCondition(), book.getFileName() );
+		//listOfBooks.add(book);
 		System.out.println("setNewBook 동작완료");
 	}
 

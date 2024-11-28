@@ -6,9 +6,6 @@ import java.util.Map;
 
 public class Cart implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8285727197850448534L;
 	
 	private String cartId;	//장바구니 아이디
