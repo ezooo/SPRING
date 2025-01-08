@@ -138,8 +138,8 @@ public class controller
 	public String project05()
 	{	//
 		System.out.println("/test/project05 in");
-		String client_id = "1qjymgijxj";
-		String client_secret = "9s1BfibbrF9C85OT1Ng4IUAkAjBHVUEq9DFAS8oH";
+		String client_id = "00000";
+		String client_secret = "0000000";
 			/*키보드를 통하여 InputStreamReader 클래스를 통해 바이트 단위로 입력받고 라인 단위로 읽기위해서 버퍼 리더를 연결*/
 		BufferedReader io = new BufferedReader(new InputStreamReader(System.in));
 		try

@@ -29,6 +29,8 @@ D:\CEJ\Spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2717267628.i
 \jsontest\src\main\java
 D:\CEJ\Spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2197895228.index
 \spBookmarket\src\main\resources
+D:\CEJ\Spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1007140947.index
+\howAbout_copy\src\main\java
 D:\CEJ\Spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3260444826.index
 \spBookmarket\src\main\java
 D:\CEJ\Spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\287168981.index
